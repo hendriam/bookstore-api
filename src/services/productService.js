@@ -8,7 +8,7 @@ const getAll = async () => {
 };
 
 const getById = async (id) => {
-    return await checkById(id);
+    return await checkProductExistById(id);
 };
 
 const create = async (productData) => {
@@ -19,34 +19,38 @@ const create = async (productData) => {
     }
 
     // Checks if a given category exists
-    await checkIfCategoryExists(productData);
+    if (productData.category) {
+        await checkCategoryExist(productData);
+    }
 
     // Checks if all given tags exist
-    await checkIfAllTagsExists(productData);
+    await checkTagsExist(productData);
 
     return await productRepository.create(productData);
 };
 
 const updateById = async (id, productData) => {
     // Check if the product already exists
-    const product = await checkById(id);
+    const productExist = await checkProductExistById(id);
 
     // const existingProduct = await productRepository.findByName(productData.name);
     // Check if the given product name already exists
-    if (product.name === productData.name) {
+    if (productExist.name === productData.name) {
         throw new ResponseError('Product name is already exists', 400);
     }
 
     // Checks if a given category exists
-    await checkIfCategoryExists(productData);
+    if (productData.category) {
+        await checkCategoryExist(productData);
+    }
 
     // Checks if all given tags exist
-    await checkIfAllTagsExists(productData);
+    await checkTagsExist(productData);
 
     // If there is a new image file uploaded
     if (productData.image) {
         // Delete old image files
-        deleteFile(product);
+        deleteFile(productExist);
     }
 
     return await productRepository.updateById(id, productData);
@@ -54,35 +58,32 @@ const updateById = async (id, productData) => {
 
 const deleteById = async (id) => {
     // Check if the product to be deleted exists
-    const product = await checkById(id);
+    const productExist = await checkProductExistById(id);
 
-    deleteFile(product);
+    deleteFile(productExist);
 
     return await productRepository.deleteById(id);
 };
 
-const checkById = async (id) => {
-    const product = await productRepository.findById(id);
-    if (!product) {
+const checkProductExistById = async (id) => {
+    const productExist = await productRepository.findById(id);
+    if (!productExist) {
         throw new ResponseError('Product not found', 404);
     }
 
-    return product;
+    return productExist;
 };
 
-const checkIfCategoryExists = async (productData) => {
-    const categoryExists = await categoryRepository.findById(productData.category);
-    if (!categoryExists) {
+const checkCategoryExist = async (productData) => {
+    const categoryExist = await categoryRepository.findById(productData.category);
+    if (!categoryExist) {
         throw new ResponseError('Category not found', 404);
     }
 };
 
-const checkIfAllTagsExists = async (productData) => {
+const checkTagsExist = async (productData) => {
     if (productData.tags) {
-        const tagsExist = await tagRepository.findByIdIn({
-            _id: { $in: productData.tags },
-        });
-
+        const tagsExist = await tagRepository.findByIdIn({ _id: { $in: productData.tags } });
         if (tagsExist.length !== productData.tags.length) {
             throw new ResponseError('One or more tags were not found', 404);
         }
