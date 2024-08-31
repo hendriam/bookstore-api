@@ -19,6 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/users", require("./routes/userRoutes")); // Mount user routes under '/api/users'
 app.use(require("./routes/categoryRoutes")); // Mount categories routes under '/api/categories'
+app.use(require("./routes/tagRoutes")); // Mount categories routes under '/api/categories'
 
 // Error handling middleware
 app.use(errorHandler);

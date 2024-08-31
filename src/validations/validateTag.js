@@ -4,7 +4,7 @@ const logger = require("../utils/logger");
 const validateCreate = [
     check("name")
         .notEmpty()
-        .withMessage("Category name is required")
+        .withMessage("Tag name is required")
         .isLength({ min: 3 })
         .withMessage("Length must be at least 3 characters")
         .isLength({ max: 100 })
