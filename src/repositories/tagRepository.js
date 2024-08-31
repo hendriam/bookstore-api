@@ -28,6 +28,10 @@ const findByName = async (name) => {
     return await Tag.findOne({ name });
 };
 
+const findByIdIn = async (query) => {
+    return await Tag.find(query);
+};
+
 module.exports = {
     findAll,
     findById,
@@ -35,4 +39,5 @@ module.exports = {
     updateById,
     deleteById,
     findByName,
+    findByIdIn,
 };

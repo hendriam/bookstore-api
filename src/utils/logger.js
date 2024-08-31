@@ -1,6 +1,6 @@
-const { createLogger, format, transports } = require("winston");
+const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, printf, colorize } = format;
-const config = require("../configs/config");
+const config = require('../configs/config');
 
 // Custom log format
 const logFormat = printf(({ level, message, timestamp }) => {
@@ -12,7 +12,7 @@ const logger = createLogger({
     level: config.levelLog, // Log level
     format: combine(
         colorize(), // Add colors to the console output
-        timestamp({ format: "YYYY-MM-DD HH:mm:ss" }), // Timestamp format
+        timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }), // Timestamp format
         logFormat // Custom log format
     ),
     transports: [

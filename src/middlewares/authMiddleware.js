@@ -1,12 +1,12 @@
-const { verifyToken } = require("../utils/jwt");
-const ResponseError = require("../utils/response-error");
+const { verifyToken } = require('../utils/jwt');
+const ResponseError = require('../utils/response-error');
 
 const authenticateUser = (req, res, next) => {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-        throw new ResponseError("No token provided", 401);
+        throw new ResponseError('No token provided', 401);
         // return res.status(401).json({ message: 'No token provided' });
     }
 
@@ -15,7 +15,7 @@ const authenticateUser = (req, res, next) => {
         req.user = decoded; // Attach decoded token payload to request object
         next();
     } catch (error) {
-        throw new ResponseError("Invalid or expired token", 403);
+        throw new ResponseError('Invalid or expired token', 403);
         // res.status(403).json({ message: 'Invalid or expired token' });
     }
 };

@@ -5,6 +5,8 @@ const validateCreate = [
     check("name")
         .notEmpty()
         .withMessage("Tag name is required")
+        .isString()
+        .withMessage("Tag name must be a string")
         .isLength({ min: 3 })
         .withMessage("Length must be at least 3 characters")
         .isLength({ max: 100 })

@@ -5,6 +5,8 @@ const validateRegistration = [
     check("fullname")
         .notEmpty()
         .withMessage("Fullname is required")
+        .isString()
+        .withMessage("Fullname must be a string")
         .isLength({ min: 3 })
         .withMessage("Full name length must be at least 3 characters")
         .isLength({ max: 20 })
