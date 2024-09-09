@@ -1,6 +1,6 @@
 const { createLogger, format, transports } = require('winston');
 const { combine, timestamp, printf, colorize } = format;
-const config = require('../configs/config');
+const config = require('./config');
 
 // Custom log format
 const logFormat = printf(({ level, message, timestamp }) => {

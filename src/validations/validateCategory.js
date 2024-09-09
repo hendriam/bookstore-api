@@ -1,16 +1,16 @@
-const { check, validationResult } = require("express-validator");
-const logger = require("../utils/logger");
+const { check, validationResult } = require('express-validator');
+const logger = require('../configs/logger');
 
 const validateCreate = [
-    check("name")
+    check('name')
         .notEmpty()
-        .withMessage("Category name is required")
+        .withMessage('Category name is required')
         .isString()
-        .withMessage("Category name must be a string")
+        .withMessage('Category name must be a string')
         .isLength({ min: 3 })
-        .withMessage("Length must be at least 3 characters")
+        .withMessage('Length must be at least 3 characters')
         .isLength({ max: 100 })
-        .withMessage("Maximum length is 100 characters"),
+        .withMessage('Maximum length is 100 characters'),
     (req, res, next) => {
         const errs = validationResult(req);
         if (!errs.isEmpty()) {
@@ -25,13 +25,11 @@ const validateCreate = [
 
             logger.warn(
                 `${JSON.stringify({
-                    message: "Validation Error",
+                    message: 'Validation Error',
                     errors,
                 })}`
             );
-            return res
-                .status(400)
-                .json({ message: "Validation Error", errors });
+            return res.status(400).json({ message: 'Validation Error', errors });
         }
         next();
     },

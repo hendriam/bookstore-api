@@ -1,26 +1,26 @@
-const { check, validationResult } = require("express-validator");
-const logger = require("../utils/logger");
+const { check, validationResult } = require('express-validator');
+const logger = require('../configs/logger');
 
 const validateRegistration = [
-    check("fullname")
+    check('fullname')
         .notEmpty()
-        .withMessage("Fullname is required")
+        .withMessage('Fullname is required')
         .isString()
-        .withMessage("Fullname must be a string")
+        .withMessage('Fullname must be a string')
         .isLength({ min: 3 })
-        .withMessage("Full name length must be at least 3 characters")
+        .withMessage('Full name length must be at least 3 characters')
         .isLength({ max: 20 })
-        .withMessage("Maximum full name length is 20 characters"),
-    check("email")
+        .withMessage('Maximum full name length is 20 characters'),
+    check('email')
         .notEmpty()
-        .withMessage("Email is required")
+        .withMessage('Email is required')
         .isEmail()
-        .withMessage("Please use a valid email address"),
-    check("password")
+        .withMessage('Please use a valid email address'),
+    check('password')
         .notEmpty()
-        .withMessage("Password is required")
+        .withMessage('Password is required')
         .isLength({ min: 6 })
-        .withMessage("Password must be at least 6 characters long"),
+        .withMessage('Password must be at least 6 characters long'),
     (req, res, next) => {
         const errs = validationResult(req);
         console.log(errs);
@@ -36,29 +36,27 @@ const validateRegistration = [
 
             logger.warn(
                 `${JSON.stringify({
-                    message: "Validation Error",
+                    message: 'Validation Error',
                     errors,
                 })}`
             );
-            return res
-                .status(400)
-                .json({ message: "Validation Error", errors });
+            return res.status(400).json({ message: 'Validation Error', errors });
         }
         next();
     },
 ];
 
 const validateLogin = [
-    check("email")
+    check('email')
         .notEmpty()
-        .withMessage("Email is required")
+        .withMessage('Email is required')
         .isEmail()
-        .withMessage("Please use a valid email address"),
-    check("password")
+        .withMessage('Please use a valid email address'),
+    check('password')
         .notEmpty()
-        .withMessage("Password is required")
+        .withMessage('Password is required')
         .isLength({ min: 6 })
-        .withMessage("Password must be at least 6 characters long"),
+        .withMessage('Password must be at least 6 characters long'),
     (req, res, next) => {
         const errs = validationResult(req);
         if (!errs.isEmpty()) {
@@ -73,13 +71,11 @@ const validateLogin = [
 
             logger.warn(
                 `${JSON.stringify({
-                    message: "Validation Error",
+                    message: 'Validation Error',
                     errors,
                 })}`
             );
-            return res
-                .status(400)
-                .json({ message: "Validation Error", errors });
+            return res.status(400).json({ message: 'Validation Error', errors });
         }
         next();
     },

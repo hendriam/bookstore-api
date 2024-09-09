@@ -3,8 +3,19 @@ const categoryRepository = require('../repositories/categoryRepository');
 const tagRepository = require('../repositories/tagRepository');
 const ResponseError = require('../utils/response-error');
 
-const getAll = async () => {
-    return await productRepository.findAll();
+const getAll = async (query) => {
+    const filter = generateFilter(query);
+
+    // Pagination
+    const page = parseInt(query.page) || 1;
+    const limit = parseInt(query.limit) || 10;
+    const skip = (page - 1) * limit;
+
+    // Sorting
+    const sortBy = query.sortBy || 'createdAt'; // Default sorting by createdAt
+    const order = query.order === 'desc' ? -1 : 1; // Default ascending order
+
+    return await productRepository.findAll(page, limit, skip, sortBy, order, filter);
 };
 
 const getById = async (id) => {
@@ -99,6 +110,29 @@ const deleteFile = (product) => {
             }
         });
     }
+};
+
+const generateFilter = (query) => {
+    // Create an empty filter object
+    let filter = {};
+
+    // Filter by category (if applicable)
+    if (query.category) {
+        filter.category = query.category;
+    }
+
+    // Filter by tags (if applicable)
+    if (query.tags) {
+        const tagIds = query.tags.split(',');
+        filter.tags = { $in: tagIds };
+    }
+
+    // Filter by search (if applicable)
+    if (query.search) {
+        filter.name = { $regex: query.search, $options: 'i' }; // Case-insensitive search
+    }
+
+    return filter;
 };
 
 module.exports = {

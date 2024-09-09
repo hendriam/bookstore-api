@@ -1,5 +1,5 @@
 const { body, validationResult, check } = require('express-validator');
-const logger = require('../utils/logger');
+const logger = require('../configs/logger');
 
 const validateCreateProduct = [
     body('name')

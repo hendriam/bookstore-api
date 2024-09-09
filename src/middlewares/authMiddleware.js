@@ -7,16 +7,14 @@ const authenticateUser = (req, res, next) => {
 
     if (!token) {
         throw new ResponseError('No token provided', 401);
-        // return res.status(401).json({ message: 'No token provided' });
     }
 
     try {
         const decoded = verifyToken(token);
-        req.user = decoded; // Attach decoded token payload to request object
+        req.user = decoded;
         next();
     } catch (error) {
         throw new ResponseError('Invalid or expired token', 403);
-        // res.status(403).json({ message: 'Invalid or expired token' });
     }
 };
 

@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const connectDB = require('./utils/database');
-const errorHandler = require('./middlewares/error-handler');
-const logger = require('./utils/logger');
 const config = require('./configs/config');
+const logger = require('./configs/logger');
+const connectDB = require('./configs/database');
+const errorHandler = require('./middlewares/error-handler');
 const path = require('path');
 
 const app = express();
@@ -18,10 +18,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/api/users', require('./routes/userRoutes')); // Mount user routes under '/api/users'
-app.use(require('./routes/categoryRoutes')); // Mount categories routes under '/api/categories'
-app.use(require('./routes/tagRoutes')); // Mount tags routes under '/api/tags'
-app.use(require('./routes/productRoutes')); // Mount products routes under '/api/products'
+// mount all routes
+app.use('/api/users', require('./routes/userRoutes'));
+app.use(require('./routes/categoryRoutes'));
+app.use(require('./routes/tagRoutes'));
+app.use(require('./routes/productRoutes'));
 
 // Middleware untuk menyajikan file statis
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
