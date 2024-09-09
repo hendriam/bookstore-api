@@ -7,4 +7,5 @@ module.exports = {
     jwtSecret: process.env.JWT_SECRET,
     expiresIn: process.env.JWT_EXPIRED,
     levelLog: process.env.LEVEL_LOG,
+    redisUrl: process.env.REDIS_URL,
 };

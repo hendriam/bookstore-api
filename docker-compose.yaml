@@ -1,0 +1,24 @@
+version: "3"
+services:
+  app:
+    build: .
+    image: hendriam18/bookstore-api
+    container_name: bookstore-api
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://mongo:27017/bookstore
+      - JWT_SECRET=ccee94dea3077d9f7fff8d00ddf3afe3ce747e5f1b388f661b698cddeaca4e98
+      - JWT_EXPIRED=1d
+      - LEVEL_LOG=info
+      - REDIS_URL=redis://redis:6379
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+    volumes:
+      - ./:/usr/src/app
+    working_dir: /usr/src/app
+networks:
+  default:
+    external: true
+    name: local

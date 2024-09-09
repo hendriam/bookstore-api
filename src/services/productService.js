@@ -2,8 +2,18 @@ const productRepository = require('../repositories/productRepository');
 const categoryRepository = require('../repositories/categoryRepository');
 const tagRepository = require('../repositories/tagRepository');
 const ResponseError = require('../utils/response-error');
+const { getCache, setCache, deleteCache } = require('../utils/cache');
+const logger = require('../configs/logger');
 
 const getAll = async (query) => {
+    // Retrieving data from cache
+    const cacheKey = `products:${JSON.stringify(query)}`;
+    const cachedData = await getCache(cacheKey);
+    if (cachedData) {
+        logger.info(`Data fetched from key => ${cacheKey}`);
+        return JSON.parse(cachedData);
+    }
+
     const filter = generateFilter(query);
 
     // Pagination
@@ -12,10 +22,15 @@ const getAll = async (query) => {
     const skip = (page - 1) * limit;
 
     // Sorting
-    const sortBy = query.sortBy || 'createdAt'; // Default sorting by createdAt
-    const order = query.order === 'desc' ? -1 : 1; // Default ascending order
+    const sortBy = query.sortBy || 'createdAt';
+    const order = query.order === 'desc' ? -1 : 1;
 
-    return await productRepository.findAll(page, limit, skip, sortBy, order, filter);
+    const products = await productRepository.findAll(page, limit, skip, sortBy, order, filter);
+
+    // Save data to cache
+    await setCache(cacheKey, products);
+
+    return products;
 };
 
 const getById = async (id) => {
@@ -36,6 +51,9 @@ const create = async (productData) => {
 
     // Checks if all given tags exist
     await checkTagsExist(productData);
+
+    // Cache invalidation after create
+    await deleteCache();
 
     return await productRepository.create(productData);
 };
@@ -64,6 +82,9 @@ const updateById = async (id, productData) => {
         deleteFile(productExist);
     }
 
+    // Cache invalidation after create
+    await deleteCache();
+
     return await productRepository.updateById(id, productData);
 };
 
@@ -72,6 +93,9 @@ const deleteById = async (id) => {
     const productExist = await checkProductExistById(id);
 
     deleteFile(productExist);
+
+    // Cache invalidation after create
+    await deleteCache();
 
     return await productRepository.deleteById(id);
 };
