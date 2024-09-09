@@ -16,7 +16,7 @@ const productSchema = new mongoose.Schema(
         price: {
             type: Number,
             required: [true, 'Product price is required'],
-            cast: 'Product price must be number',
+            cast: 'Product price must be a number',
         },
         image: {
             type: String,

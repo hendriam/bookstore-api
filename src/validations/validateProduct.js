@@ -1,4 +1,4 @@
-const { body, validationResult, check } = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const logger = require('../configs/logger');
 
 const validateCreateProduct = [
@@ -15,7 +15,9 @@ const validateCreateProduct = [
         .notEmpty()
         .withMessage('Product description is required')
         .isString()
-        .withMessage('Product description must be a string'),
+        .withMessage('Product description must be a string')
+        .isLength({ max: 500 })
+        .withMessage('Maximum length is 500 characters'),
     body('price')
         .notEmpty()
         .withMessage('Product price is required')
@@ -31,7 +33,7 @@ const validateCreateProduct = [
             if (req.file && req.file.path) {
                 fs.unlink(req.file.path, (err) => {
                     if (err) {
-                        console.error('Gagal menghapus file:', err);
+                        throw new Error('Failed to delete old files');
                     }
                 });
             }

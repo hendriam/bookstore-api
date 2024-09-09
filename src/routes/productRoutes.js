@@ -9,8 +9,8 @@ router.use(authentication);
 
 router.get('/api/products', productController.getAll);
 router.get('/api/products/:id', productController.getById);
-router.post('/api/products', uploadImage.single('image'), productController.create);
-router.put('/api/products/:id', uploadImage.single('image'), productController.updateById);
+router.post('/api/products', uploadImage.single('image'), validateCreateProduct, productController.create);
+router.put('/api/products/:id', uploadImage.single('image'), validateCreateProduct, productController.updateById);
 router.delete('/api/products/:id', productController.deleteById);
 
 module.exports = router;
