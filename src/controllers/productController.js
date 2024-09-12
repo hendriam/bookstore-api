@@ -51,7 +51,7 @@ const updateById = async (req, res, next) => {
 const deleteById = async (req, res, next) => {
     try {
         const product = await productService.deleteById(req.params.id);
-        responseSuccess(res, 'Product deleted successfully', product, 200);
+        responseSuccess(res, 'Product deleted successfully', null, 200);
     } catch (error) {
         next(error);
     }

@@ -3,8 +3,8 @@ const Category = require('../models/Category');
 
 const findAll = async (page, limit, skip, sortBy, order, filter) => {
     const products = await Product.find(filter)
-        .populate('category')
-        .populate('tags')
+        .populate('category', 'name')
+        .populate('tags', 'name')
         .sort({ [sortBy]: order })
         .skip(skip)
         .limit(limit);

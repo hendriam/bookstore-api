@@ -23,6 +23,7 @@ app.use('/api/users', require('./routes/userRoutes'));
 app.use(require('./routes/categoryRoutes'));
 app.use(require('./routes/tagRoutes'));
 app.use(require('./routes/productRoutes'));
+app.use(require('./routes/addressRoutes'));
 
 // Middleware untuk menyajikan file statis
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
