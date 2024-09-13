@@ -7,6 +7,10 @@ const getAll = async (query) => {
     return await addressRepository.findAll(filter);
 };
 
+const getAllByUser = async (userId) => {
+    return await addressRepository.findAllByUser(userId);
+};
+
 const getById = async (id) => {
     const address = await addressRepository.findById(id);
     if (!address) {
@@ -81,6 +85,7 @@ const generateFilter = (query) => {
 
 module.exports = {
     getAll,
+    getAllByUser,
     getById,
     create,
     updateById,

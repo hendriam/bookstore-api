@@ -4,6 +4,10 @@ const findAll = async (filter) => {
     return await Address.find(filter).populate('user', 'fullname');
 };
 
+const findAllByUser = async (userId) => {
+    return await Address.find({ user: userId }).populate('user', 'fullname');
+};
+
 const findById = async (id) => {
     return await Address.findById(id).populate('user', 'fullname');
 };
@@ -32,6 +36,7 @@ const findDefaultAddresByUser = async (user) => {
 
 module.exports = {
     findAll,
+    findAllByUser,
     findById,
     create,
     updateById,

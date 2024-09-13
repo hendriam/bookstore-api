@@ -27,13 +27,10 @@ const getToken = async (userData) => {
     const token = generateToken({
         id: existingUser._id,
         email: existingUser.email,
+        role: existingUser.role,
     });
 
-    // Return user data (no password)
-    // const { password: _, ...userNoPassword } = existingUser.toObject();
     return token;
-
-    // return await userRepository.create(userData);
 };
 
 module.exports = { register, getToken };

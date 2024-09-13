@@ -10,6 +10,15 @@ const getAll = async (req, res, next) => {
     }
 };
 
+const getAllByUser = async (req, res, next) => {
+    try {
+        const address = await addressService.getAllByUser(req.params.userId);
+        responseSuccess(res, 'Address list successfully retrieved', address, 200);
+    } catch (error) {
+        next(error);
+    }
+};
+
 const getById = async (req, res, next) => {
     try {
         const address = await addressService.getById(req.params.id);
@@ -48,6 +57,7 @@ const deleteById = async (req, res, next) => {
 
 module.exports = {
     getAll,
+    getAllByUser,
     getById,
     create,
     updateById,
