@@ -12,6 +12,10 @@ const findById = async (id) => {
     return await Address.findById(id).populate('user', 'fullname');
 };
 
+const findByIdNoPopolate = async (id) => {
+    return await Address.findById(id);
+};
+
 const create = async (addressData) => {
     const address = new Address(addressData);
     const saved = await address.save();
@@ -38,6 +42,7 @@ module.exports = {
     findAll,
     findAllByUser,
     findById,
+    findByIdNoPopolate,
     create,
     updateById,
     deleteById,

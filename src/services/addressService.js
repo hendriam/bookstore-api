@@ -1,4 +1,5 @@
 const addressRepository = require('../repositories/addressRepository');
+const defineAbilities = require('../utils/defineAbilities');
 const ResponseError = require('../utils/response-error');
 
 const getAll = async (query) => {
@@ -36,10 +37,19 @@ const create = async (addressData) => {
     return await addressRepository.create(addressData);
 };
 
-const updateById = async (id, addressData) => {
-    const address = await addressRepository.findById(id);
+const updateById = async (id, addressData, user) => {
+    const address = await addressRepository.findByIdNoPopolate(id);
     if (!address) {
         throw new ResponseError('Address not found', 404);
+    }
+
+    const ability = defineAbilities(user);
+    if (!ability.can('update', address)) {
+        throw new ResponseError('You do not have permission to update this address.', 403);
+    }
+
+    if (address.user != addressData.user) {
+        throw new ResponseError('User not match.', 400);
     }
 
     // If the value isDefault, sent by the user, is TRUE, then update the old isDefault to false.
@@ -57,10 +67,15 @@ const updateById = async (id, addressData) => {
     return await addressRepository.updateById(id, addressData);
 };
 
-const deleteById = async (id) => {
-    const addressExist = await addressRepository.findById(id);
+const deleteById = async (id, user) => {
+    const addressExist = await addressRepository.findByIdNoPopolate(id);
     if (!addressExist) {
         throw new ResponseError('Address not found', 404);
+    }
+
+    const ability = defineAbilities(user);
+    if (!ability.can('delete', addressExist)) {
+        throw new ResponseError('You do not have permission to delete this address.', 403);
     }
 
     // Address can't be deleted because it is address default.

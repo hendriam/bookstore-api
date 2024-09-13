@@ -39,7 +39,7 @@ const create = async (req, res, next) => {
 
 const updateById = async (req, res, next) => {
     try {
-        const address = await addressService.updateById(req.params.id, req.body);
+        const address = await addressService.updateById(req.params.id, req.body, req.user);
         responseSuccess(res, 'Address updated successfully', address, 200);
     } catch (error) {
         next(error);
@@ -48,7 +48,7 @@ const updateById = async (req, res, next) => {
 
 const deleteById = async (req, res, next) => {
     try {
-        const address = await addressService.deleteById(req.params.id);
+        const address = await addressService.deleteById(req.params.id, req.user);
         responseSuccess(res, 'Address deleted successfully', null, 200);
     } catch (error) {
         next(error);

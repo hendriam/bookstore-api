@@ -11,8 +11,8 @@ router.use(authentication);
 router.get('/api/address', authorize('manage', 'Address'), addressController.getAll);
 router.get('/api/:userId/address', authorize('read', 'Address'), addressController.getAllByUser);
 router.get('/api/address/:id', authorize('read', 'Address'), addressController.getById);
-router.post('/api/address', authorize('manage', 'Address'), validateCreateAddress, addressController.create);
-router.put('/api/address/:id', authorize('manage', 'Address'), validateCreateAddress, addressController.updateById);
-router.delete('/api/address/:id', authorize('manage', 'Address'), addressController.deleteById);
+router.post('/api/address', authorize('create', 'Address'), validateCreateAddress, addressController.create);
+router.put('/api/address/:id', authorize('update', 'Address'), validateCreateAddress, addressController.updateById);
+router.delete('/api/address/:id', authorize('delete', 'Address'), addressController.deleteById);
 
 module.exports = router;

@@ -10,6 +10,9 @@ function defineAbilities(user) {
         can('read', 'Category');
         can('read', 'Tags');
         can('read', 'Address');
+        can('create', 'Address');
+        can('update', 'Address', { user: user.id });
+        can('delete', 'Address', { user: user.id });
     }
 
     return build();
