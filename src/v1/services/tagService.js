@@ -1,5 +1,5 @@
 const tagRepository = require('../repositories/tagRepository');
-const ResponseError = require('../utils/response-error');
+const ResponseError = require('../../utils/response-error');
 
 const getAll = async () => {
     return await tagRepository.findAll();

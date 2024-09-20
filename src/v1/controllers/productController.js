@@ -1,5 +1,5 @@
 const productService = require('../services/productService');
-const responseSuccess = require('../utils/response-success');
+const responseSuccess = require('../../utils/response-success');
 
 const getAll = async (req, res, next) => {
     try {

@@ -1,7 +1,7 @@
 const productRepository = require('../repositories/productRepository');
 const categoryRepository = require('../repositories/categoryRepository');
-const tagRepository = require('../repositories/tagRepository');
-const ResponseError = require('../utils/response-error');
+const tagRepository = require('../../repositories/tagRepository');
+const ResponseError = require('../../utils/response-error');
 
 const getAll = async () => {
     return await productRepository.findAll();

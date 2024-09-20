@@ -1,5 +1,5 @@
 const categoryService = require('../services/categoryService');
-const responseSuccess = require('../utils/response-success');
+const responseSuccess = require('../../utils/response-success');
 
 const getAll = async (req, res, next) => {
     try {

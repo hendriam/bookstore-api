@@ -1,5 +1,5 @@
 const categoryRepository = require('../repositories/categoryRepository');
-const ResponseError = require('../utils/response-error');
+const ResponseError = require('../../utils/response-error');
 
 const getAll = async () => {
     return await categoryRepository.findAll();

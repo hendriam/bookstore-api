@@ -25,6 +25,11 @@ const validateCreateProduct = [
         .withMessage('Product price must be a number'),
     body('image').optional().isString().withMessage('Image must be a string'),
     body('category').notEmpty().withMessage('Category is required'),
+    body('stock')
+        .notEmpty()
+        .withMessage('Stock price is required')
+        .isFloat()
+        .withMessage('Stock price must be a number'),
     (req, res, next) => {
         const errs = validationResult(req);
         if (!errs.isEmpty()) {

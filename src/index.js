@@ -19,11 +19,7 @@ app.use((req, res, next) => {
 });
 
 // mount all routes
-app.use('/api/users', require('./routes/userRoutes'));
-app.use(require('./routes/categoryRoutes'));
-app.use(require('./routes/tagRoutes'));
-app.use(require('./routes/productRoutes'));
-app.use(require('./routes/addressRoutes'));
+app.use('/api/v1', require('./v1/routes'));
 
 // Middleware untuk menyajikan file statis
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
