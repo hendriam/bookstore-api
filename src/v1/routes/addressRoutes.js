@@ -9,7 +9,7 @@ const router = express.Router();
 router.use(authentication);
 
 router.get('/', authorize('manage', 'Address'), addressController.getAll);
-router.get('/:userId', authorize('read', 'Address'), addressController.getAllByUser);
+router.get('/user/:userId', authorize('read', 'Address'), addressController.getAllByUser);
 router.get('/:id', authorize('read', 'Address'), addressController.getById);
 router.post('/', authorize('create', 'Address'), validateCreateAddress, addressController.create);
 router.put('/:id', authorize('update', 'Address'), validateCreateAddress, addressController.updateById);

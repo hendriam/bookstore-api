@@ -16,6 +16,8 @@ function defineAbilities(user) {
         can('read', 'Cart', { user: user.id });
         can('create', 'Cart');
         can('delete', 'Cart', { user: user.id });
+        can('create', 'Order');
+        can('read', 'Order', { user: user.id });
     }
 
     return build();
