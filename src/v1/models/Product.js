@@ -32,6 +32,11 @@ const productSchema = new mongoose.Schema(
                 ref: 'Tag',
             },
         ],
+        stock: {
+            type: Number,
+            required: [true, 'Stock price is required'],
+            cast: 'Stock price must be a number',
+        },
     },
     {
         timestamps: true,

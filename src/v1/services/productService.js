@@ -1,9 +1,9 @@
 const productRepository = require('../repositories/productRepository');
 const categoryRepository = require('../repositories/categoryRepository');
 const tagRepository = require('../repositories/tagRepository');
-const ResponseError = require('../utils/response-error');
-const { getCache, setCache, deleteCache } = require('../utils/cache');
-const logger = require('../configs/logger');
+const ResponseError = require('../../utils/response-error');
+const { getCache, setCache, deleteCache } = require('../../utils/cache');
+const logger = require('../../configs/logger');
 
 const getAll = async (query) => {
     // Retrieving data from cache

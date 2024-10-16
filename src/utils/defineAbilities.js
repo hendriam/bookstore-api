@@ -13,6 +13,11 @@ function defineAbilities(user) {
         can('create', 'Address');
         can('update', 'Address', { user: user.id });
         can('delete', 'Address', { user: user.id });
+        can('read', 'Cart', { user: user.id });
+        can('create', 'Cart');
+        can('delete', 'Cart', { user: user.id });
+        can('create', 'Order');
+        can('read', 'Order', { user: user.id });
     }
 
     return build();

@@ -1,6 +1,6 @@
 const addressRepository = require('../repositories/addressRepository');
-const defineAbilities = require('../utils/defineAbilities');
-const ResponseError = require('../utils/response-error');
+const defineAbilities = require('../../utils/defineAbilities');
+const ResponseError = require('../../utils/response-error');
 
 const getAll = async (query) => {
     const filter = generateFilter(query);

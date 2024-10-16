@@ -1,6 +1,6 @@
 const userRepository = require('../repositories/userRepository');
-const { generateToken } = require('../utils/jwt');
-const ResponseError = require('../utils/response-error');
+const { generateToken } = require('../../utils/jwt');
+const ResponseError = require('../../utils/response-error');
 const bcrypt = require('bcrypt');
 
 const register = async (userData) => {
