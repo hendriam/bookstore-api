@@ -4,7 +4,7 @@ RUN apk add tzdata
 
 RUN ln -sf /usr/share/zoneinfo/Asia/Jakarta /etc/localtime
 
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY package*.json ./
 
