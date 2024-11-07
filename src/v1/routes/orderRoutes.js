@@ -10,7 +10,7 @@ router.use(authentication);
 router.post('/', authorize('create', 'Order'), orderController.order);
 router.get('/', authorize('manage', 'Order'), orderController.getAllOrders);
 router.get('/:id', authorize('read', 'Order'), orderController.getOrderById);
-router.get('/user', authorize('read', 'Order'), orderController.getOrdersByUserId);
+router.get('/user/all', authorize('read', 'Order'), orderController.getOrdersByUserId);
 router.put('/:id', authorize('manage', 'Order'), orderController.updateStatus);
 
 module.exports = router;
