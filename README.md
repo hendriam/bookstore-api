@@ -69,11 +69,11 @@ services:
   mongo-server:
     image: mongo:8.0
     ports:
-      - '27017:27017'
+      - 27017:27017
   redis-server:
     image: redis:latest
     ports:
-      - '6379:6379'
+      - 6379:6379
 networks:
   default:
     external: true
