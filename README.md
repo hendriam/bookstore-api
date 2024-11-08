@@ -50,6 +50,15 @@ REDIS_URL=redis://redis-server:6379
 ```
 These variables will be used by the application when running in a Docker container.
 
+### Create the uploads Folder
+Create a folder named `uploads` in the root of the project. This folder will store uploaded image files.
+
+```bash
+mkdir uploads
+```
+
+> Note: Ensure this folder has proper write permissions, as it will store uploaded images.
+
 ### Running with Docker Compose
 If you want to run the project using Docker Compose, follow these steps:
 
