@@ -148,4 +148,24 @@ Example endpoint verification:
 curl http://localhost:3000/api/v1/products
 ```
 
+## User Roles and Permissions
+The application supports three types of users: Guest, User, and Admin. Each type has distinct permissions, enabling tailored access and functionality.
+
+1. **Guest User**
+  - Guest users can browse the available products, categories, and tags.
+  - No authentication is required for this access, allowing guests to freely explore the catalog.
+2. **User**
+  - Authenticated users can:
+    - View products, categories, and tags.
+    - Add products to their cart and proceed with orders.
+    - Manage personal addresses, such as adding a shipping address.
+  - **Authentication Required**: Users must be logged in to access cart, order, and address management features.
+3. **Admin**
+  - Admin users have full management rights, including:
+    - Managing all products, categories, tags, users, addresses, and orders.
+    - Updating order statuses, which is essential for order processing.
+  - Restrictions: Admins cannot delete orders placed by other users, maintaining order integrity.
+
+Each role has specific privileges, ensuring security and role-based access across different parts of the application. This setup supports a clear distinction between guests, regular users, and administrators.
+
 ## How to Use the API (coming soon)
