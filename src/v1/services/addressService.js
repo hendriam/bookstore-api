@@ -9,7 +9,12 @@ const getAll = async (query) => {
 };
 
 const getAllByUser = async (userId) => {
-    return await addressRepository.findAllByUser(userId);
+    const address = await addressRepository.findAllByUser(userId);
+    if (address.length === 0) {
+        throw new ResponseError('Address not found', 404);
+    }
+
+    return address;
 };
 
 const getById = async (id) => {

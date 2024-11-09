@@ -18,4 +18,13 @@ const login = async (req, res, next) => {
     }
 };
 
-module.exports = { register, login };
+const profile = async (req, res, next) => {
+    try {
+        const profile = await userService.getProfile(req.user.id);
+        res.status(200).json({ profile });
+    } catch (error) {
+        next(error);
+    }
+};
+
+module.exports = { register, login, profile };

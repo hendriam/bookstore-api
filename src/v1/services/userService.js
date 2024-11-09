@@ -33,4 +33,12 @@ const getToken = async (userData) => {
     return token;
 };
 
-module.exports = { register, getToken };
+const getProfile = async (userId) => {
+    const existingUser = await userRepository.findById(userId);
+    if (!existingUser) {
+        throw new ResponseError('User not found', 404);
+    }
+    return existingUser;
+};
+
+module.exports = { register, getToken, getProfile };

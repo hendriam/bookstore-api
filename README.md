@@ -168,4 +168,296 @@ The application supports three types of users: Guest, User, and Admin. Each type
 
 Each role has specific privileges, ensuring security and role-based access across different parts of the application. This setup supports a clear distinction between guests, regular users, and administrators.
 
-## How to Use the API (coming soon)
+## How to Use the API
+Each of these cURL commands interacts with the API’s endpoints. Ensure the server is running at http://localhost:3000 and that you’ve set up your .env file correctly.
+
+### User Registration, Login, and Profile Viewing
+
+#### Register a New User
+To create a new user account, use the following `POST` request. Replace `fullname`, `email`, `password`, and `role` values as desired.
+
+**Role `admin`**
+```bash
+curl -X POST http://localhost:3000/api/v1/users/register \
+-H "Content-Type: application/json" \
+-d '{
+  "fullname": "Administrator",
+  "email": "admin@gmail.com",
+  "password": "admin123",
+  "role": "admin"
+}'
+```
+
+**Role `user`**
+```bash
+curl -X POST http://localhost:3000/api/v1/users/register \
+-H "Content-Type: application/json" \
+-d '{
+  "fullname": "John Doe",
+  "email": "johndoe@gmail.com",
+  "password": "johndoe123",
+  "role": "user"
+}'
+```
+
+**Explanation**:
+- `role`: The user role, typically set to "user" during registration.
+
+#### Log In
+Use the following command to log in and retrieve a JWT token. This token is necessary to authenticate subsequent requests.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/users/login \
+-H "Content-Type: application/json" \
+-d '{
+  "email": "admin@gmail.com",
+  "password": "admin123"
+}'
+```
+
+**Expected Response:**
+- A successful login returns a JSON response containing a JWT token. Copy this token to use in future requests requiring authentication.
+
+```bash
+{
+  "token": "your_jwt_token_here"
+}
+```
+
+#### View User Profile
+Once logged in, use the JWT token to retrieve the user’s profile information. Replace `your_jwt_token` with the actual token received from the login response.
+
+```bash
+curl -X GET http://localhost:3000/api/v1/users/profile \
+-H "Authorization: Bearer your_jwt_token"
+```
+
+**Explanation:**
+- `Authorization`: The Bearer token should include the JWT obtained from the login response.
+
+**Expected Response**:
+- The user’s profile information, including fullname, email, and role.
+
+**Example Response:**
+```bash
+{
+ "profile": {
+   "_id": "672ddc89bafe626835487218",
+   "fullname": "Administrator",
+   "email": "admin@gmail.com",
+   "password": "$2b$10$PMpIQ2WkgMEEeVxdzz.SKOE8F3e82zuL9LApj0YFFY.w1Vxg7VA/m",
+   "role": "admin",
+   "createdAt": "2024-11-08T09:40:25.530Z",
+   "updatedAt": "2024-11-08T09:40:25.530Z",
+   "__v": 0
+ }
+}
+```
+
+### Category, Tag, Product
+Only users with the Admin role have permission to perform certain actions on categories, tags and products:
+- `Create`: Only Admins can add a new categories, tags and products.
+- `Update`: Only Admins can modify existing products, including details such as name, price, category, and tags.
+- `Delete`: Only Admins can delete categories, tags and products.
+
+#### Create a New Category
+To add a new category, use the following `POST` request with the JWT `token` for authentication. Adjust the category fields as necessary.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/categories \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer admin_jwt_token" \
+-d '{
+  "name": "Javascript"
+}'
+```
+
+#### Create a New Tag
+To add a new tag, use the following `POST` request with the JWT `token` for authentication. Adjust the tag fields as necessary.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/tags \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer admin_jwt_token" \
+-d '{
+  "name": "nodejs"
+}'
+```
+
+#### Create a New Product
+This command demonstrates creating a new product with image file upload functionality. Ensure `path/to/your-image.jpg` with the actual path to the image file on your machine.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/products \
+-H "Authorization: Bearer admin_jwt_token" \
+-F "name=Clean Code" \
+-F "description=This new edition..." \
+-F "price=39.99" \
+-F "category=672de7dbbafe626835487230" \
+-F "tags=672de7d5bafe62683548722d,672df202bafe6268354872da" \
+-F "image=@path/to/your-image.jpg"
+-F "stock=10"
+```
+
+**Explanation**:
+- `-F "category=672de7dbbafe626835487230"`: Specifies the category of the product based on category_id.
+- `-F "tags=672de7d5bafe62683548722d,672df202bafe6268354872da"`: Adds tags for the product based on tag_id. You can separate multiple tags by commas.
+- `-F "image=@path/to/your-image.jpg"`: Uploads the image file. Replace path/to/your-image.jpg with the actual file path.
+
+### Read All Products with `Pagination` and `Filtering`
+The `GET` request to retrieve all products supports pagination and filtering options to help users find products more efficiently. Below are the available query parameters that can be used to customize the results:
+- `search`: Searches for products by name or description
+    - Example: `?search=nodejs`
+- `page`: Specifies the page number of results to retrieve. Default is `1`
+    - Example: `?page=2`
+- `limit`: Limits the number of products per page. Default is `10`
+    - Example: `?limit=20`
+- `order`: Orders the results. Accepts either `asc` or `desc` to sort by ascending or descending order based on product name. Default is `asc`
+    - Example: `?order=asc`
+- `tags`: Filters products by tags. Multiple tags can be separated by commas.
+    - Example: `?tags=66df211668763be9441127b3,66dea0724a277193efd8f17d`
+- `category`: Filters products by category.
+    - Example: `?category=66dea0594a277193efd8f17a`
+
+**Example Request with Pagination and Filtering**
+```bash
+curl -X GET "http://localhost:3000/api/v1/products?page=1&limit=10&order=asc"
+```
+
+### Adding a Product to the Cart
+Only authenticated users with the User role can add products to their shopping cart. This action is restricted to prevent unauthorized access and ensure that only valid users can manage their carts.
+
+Replace `user_jwt_token` with the actual JWT token obtained from the login, and adjust the `productId` and `quantity` values as needed.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/carts \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer user_jwt_token" \
+-d '{
+  "productId": "672de817bafe626835487239",
+  "quantity": 5
+}'
+```
+
+**Expected Response:**
+```bash
+{
+	"message": "Product added to cart successfully",
+	"data": {
+		"_id": "672dea4ebafe6268354872b1",
+		"user": "672de756bafe626835487222",
+		"items": [
+			{
+				"product": {
+					"_id": "672de817bafe626835487239",
+					"name": "Clean Code",
+					"description": "This new edition examines the core of modern software development—understanding what is wanted and producing working, maintainable code that delights its users",
+					"image": "uploads/image-1731061783503-12118857.jpg"
+				},
+				"quantity": 5,
+				"price": 90,
+				"total": 450,
+				"_id": "672dea4ebafe6268354872b2"
+			}
+		],
+		"totalQuantity": 5,
+		"totalPrice": 450,
+		"createdAt": "2024-11-08T10:39:10.363Z",
+		"updatedAt": "2024-11-08T10:39:41.399Z",
+		"__v": 2
+	}
+}
+```
+
+> **Access Control Note**: Only User role accounts are permitted to perform this action. Guest users and Admin accounts are not authorized to add products to a cart.
+
+### Placing an Order
+To create an order, an authenticated User can finalize the items in their shopping cart. This process requires authentication and specific permissions restricted to the User role.
+
+#### Order Request Structure:
+To place an order, send a `POST` request to the `/api/v1/orders endpoint`. The order will use the items currently in the user's cart, along with the selected shipping address.
+
+Use the following `cURL` command to place an order. Replace `your_jwt_token` with the actual JWT token obtained from login.
+
+```bash
+curl -X POST http://localhost:3000/api/v1/orders \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer user_jwt_token"
+```
+
+**Expected Response:**
+A JSON response with details of the placed order, including order ID, items ordered, total amount, shipping address, and order status.
+
+```bash
+{
+	"message": "Order created successfully",
+	"data": {
+		"_id": "672eb6eb85ba4d00efa65340",
+		"user": {
+			"_id": "672ea94fefd14512f98d678d",
+			"fullname": "John Doe",
+			"email": "johndoe@gmail.com",
+			"role": "user"
+		},
+		"items": [
+			{
+				"product": {
+					"_id": "672eaa13efd14512f98d679d",
+					"name": "Clean Code 1",
+					"description": "This new edition examines the core of modern software development—understanding what is wanted and producing working, maintainable code that delights its users",
+					"image": "uploads/image-1731111443760-854778888.jpg"
+				},
+				"quantity": 1,
+				"price": 90,
+				"_id": "672eb6eb85ba4d00efa65341"
+			}
+		],
+		"total": 90,
+		"shippingAddress": {
+			"_id": "672eb5e8fc8a182d6e5b6096",
+			"recipientName": "John Doe",
+			"streetAddress": "Jl. Medan",
+			"city": "Medan Kota",
+			"state": "Sumatera Utara",
+			"postalCode": "20245",
+			"country": "Indonesia",
+			"phoneNumber": "0000000000",
+			"label": "home",
+			"isDefault": true,
+			"user": "672ea94fefd14512f98d678d",
+			"createdAt": "2024-11-09T01:07:52.254Z",
+			"updatedAt": "2024-11-09T01:07:52.254Z",
+			"__v": 0
+		},
+		"status": "Pending",
+		"createdAt": "2024-11-09T01:12:11.293Z",
+		"updatedAt": "2024-11-09T01:12:11.293Z",
+		"__v": 0
+	}
+}
+```
+
+### Importing API Collection for Detailed Examples
+For a more comprehensive demonstration of each API endpoint, including all CRUD operations and authentication flows, please import the provided JSON collection file into Postman or Insomnia. This collection contains pre-configured requests for each API endpoint, making it easy to explore and test the API.
+
+1. Download the JSON Collection: Locate the API collection JSON file in this repository.
+2. Import into Postman or Insomnia:
+    - Open Postman or Insomnia.
+    - Select the "Import" option and choose the JSON file.
+3. Run Requests: Each endpoint is organized with examples, including:
+    - CRUD operations for products, categories, and tags.
+    - Authentication (register, login, profile).
+    - Shopping cart and order management.
+
+Using this collection, you can quickly test the API without manually constructing requests, making it easier to understand the API's functionality and structure.
+
+## Contributing
+We welcome contributions to this project! If you’d like to help improve the API, whether by fixing bugs, enhancing existing features, or adding new ones, please feel free to contribute.
+
+**Contribution Guidelines**
+- `Bug` Fixes: Please describe the bug and your approach to fixing it.
+- `New` Features: Provide a clear explanation of the feature and its use case.
+- `Code` Quality: Follow best practices for code quality and readability.
+- `Testing`: Make sure to test your changes thoroughly before submitting.
+
+Thank you for contributing to this project! Every contribution helps make this API better for everyone.

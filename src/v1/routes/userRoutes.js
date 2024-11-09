@@ -9,8 +9,6 @@ router.post('/register', validateRegistration, userController.register);
 router.post('/login', validateLogin, userController.login);
 
 // Route yang memerlukan autentikasi
-router.get('/profile', authenticateUser, (req, res) => {
-    res.status(200).json({ user: req.user });
-});
+router.get('/profile', authenticateUser, userController.profile);
 
 module.exports = router;
