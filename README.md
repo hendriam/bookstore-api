@@ -342,30 +342,30 @@ curl -X POST http://localhost:3000/api/v1/carts \
 **Expected Response:**
 ```bash
 {
-	"message": "Product added to cart successfully",
-	"data": {
-		"_id": "672dea4ebafe6268354872b1",
-		"user": "672de756bafe626835487222",
-		"items": [
-			{
-				"product": {
-					"_id": "672de817bafe626835487239",
-					"name": "Clean Code",
-					"description": "This new edition examines the core of modern software development—understanding what is wanted and producing working, maintainable code that delights its users",
-					"image": "uploads/image-1731061783503-12118857.jpg"
-				},
-				"quantity": 5,
-				"price": 90,
-				"total": 450,
-				"_id": "672dea4ebafe6268354872b2"
-			}
-		],
-		"totalQuantity": 5,
-		"totalPrice": 450,
-		"createdAt": "2024-11-08T10:39:10.363Z",
-		"updatedAt": "2024-11-08T10:39:41.399Z",
-		"__v": 2
+ "message": "Product added to cart successfully",
+ "data": {
+  "_id": "672dea4ebafe6268354872b1",
+  "user": "672de756bafe626835487222",
+  "items": [
+	{
+	 "product": {
+	   "_id": "672de817bafe626835487239",
+	   "name": "Clean Code",
+	   "description": "This new edition examines the core of modern software development—understanding what is wanted and producing working, maintainable code that delights its users",
+	   "image": "uploads/image-1731061783503-12118857.jpg"
+	 },
+	 "quantity": 5,
+	 "price": 90,
+	 "total": 450,
+	 "_id": "672dea4ebafe6268354872b2"
 	}
+	],
+  "totalQuantity": 5,
+  "totalPrice": 450,
+  "createdAt": "2024-11-08T10:39:10.363Z",
+  "updatedAt": "2024-11-08T10:39:41.399Z",
+  "__v": 2
+ }
 }
 ```
 
@@ -390,50 +390,50 @@ A JSON response with details of the placed order, including order ID, items orde
 
 ```bash
 {
-	"message": "Order created successfully",
-	"data": {
-		"_id": "672eb6eb85ba4d00efa65340",
-		"user": {
-			"_id": "672ea94fefd14512f98d678d",
-			"fullname": "John Doe",
-			"email": "johndoe@gmail.com",
-			"role": "user"
-		},
-		"items": [
-			{
-				"product": {
-					"_id": "672eaa13efd14512f98d679d",
-					"name": "Clean Code 1",
-					"description": "This new edition examines the core of modern software development—understanding what is wanted and producing working, maintainable code that delights its users",
-					"image": "uploads/image-1731111443760-854778888.jpg"
-				},
-				"quantity": 1,
-				"price": 90,
-				"_id": "672eb6eb85ba4d00efa65341"
-			}
-		],
-		"total": 90,
-		"shippingAddress": {
-			"_id": "672eb5e8fc8a182d6e5b6096",
-			"recipientName": "John Doe",
-			"streetAddress": "Jl. Medan",
-			"city": "Medan Kota",
-			"state": "Sumatera Utara",
-			"postalCode": "20245",
-			"country": "Indonesia",
-			"phoneNumber": "0000000000",
-			"label": "home",
-			"isDefault": true,
-			"user": "672ea94fefd14512f98d678d",
-			"createdAt": "2024-11-09T01:07:52.254Z",
-			"updatedAt": "2024-11-09T01:07:52.254Z",
-			"__v": 0
-		},
-		"status": "Pending",
-		"createdAt": "2024-11-09T01:12:11.293Z",
-		"updatedAt": "2024-11-09T01:12:11.293Z",
-		"__v": 0
-	}
+ "message": "Order created successfully",
+ "data": {
+  "_id": "672eb6eb85ba4d00efa65340",
+  "user": {
+   "_id": "672ea94fefd14512f98d678d",
+   "fullname": "John Doe",
+   "email": "johndoe@gmail.com",
+   "role": "user"
+  },
+  "items": [
+   {
+    "product": {
+     "_id": "672eaa13efd14512f98d679d",
+	 "name": "Clean Code 1",
+     "description": "This new edition examines the core of modern software development—understanding what is wanted and producing working, maintainable code that delights its users",
+     "image": "uploads/image-1731111443760-854778888.jpg"
+    },
+    "quantity": 1,
+	"price": 90,
+	"_id": "672eb6eb85ba4d00efa65341"
+    }
+	],
+   "total": 90,
+   "shippingAddress": {
+    "_id": "672eb5e8fc8a182d6e5b6096",
+    "recipientName": "John Doe",
+    "streetAddress": "Jl. Medan",
+    "city": "Medan Kota",
+    "state": "Sumatera Utara",
+    "postalCode": "20245",
+    "country": "Indonesia",
+    "phoneNumber": "0000000000",
+    "label": "home",
+    "isDefault": true,
+    "user": "672ea94fefd14512f98d678d",
+    "createdAt": "2024-11-09T01:07:52.254Z",
+	"updatedAt": "2024-11-09T01:07:52.254Z",
+	"__v": 0
+   },
+   "status": "Pending",
+   "createdAt": "2024-11-09T01:12:11.293Z",
+   "updatedAt": "2024-11-09T01:12:11.293Z",
+   "__v": 0
+  }
 }
 ```
 
