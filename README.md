@@ -21,6 +21,8 @@ And this project demonstrates how to implement this design pattern in a RESTful 
 - [**CASL**](https://casl.js.org/v6/en/)</b>: Used as an authorization middleware to control access based on user roles or specific permissions. CASL ensures that only users with the appropriate access rights can access resources or perform certain actions.
 - [**Winston**](https://www.npmjs.com/package/winston): Used for logging
 
+**To implement this API on the frontend, I've built a simple app; it's called the `Bookstore app`. If you would like to give it a try, please clone the repository [here](https://github.com/hendriam/bookstore-app.git).**
+
 ## Installation and Running the Project
 
 ### Prerequisites
